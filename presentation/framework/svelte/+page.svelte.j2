@@ -1,0 +1,77 @@
+<script lang="ts">
+
+	function getFormData() {
+		const elms = document.getElementsByTagName("input");
+		let data = {}
+		for (const elm of elms) {
+			const name = elm.getAttribute("name");
+			data[name] = elm.value;
+		}
+		return data;
+	}
+
+	async function register() {
+		const response = await fetch('/api/{{name}}', {
+			method: 'POST',
+			body: JSON.stringify(getFormData()),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+		return await response.json();
+	}
+
+	async function update() {
+		const response = await fetch('/api/{{name}}', {
+			method: 'PUT',
+			body: JSON.stringify(getFormData()),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+		return await response.json();
+	}
+
+	async function _delete() {
+		const response = await fetch('/api/{{name}}', {
+			method: 'DELETE',
+			body: JSON.stringify(getFormData()),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+		return await response.json();
+	}
+
+	async function on_register_button_clicked(): void {
+        var x = await register();
+        alert(x);
+    }
+
+    async function on_update_button_clicked(): void {
+		var x = await update();
+        alert(x);
+	}
+
+    async function on_delete_button_clicked(): void {
+		var x = await _delete();
+        alert(x);
+	}
+</script>
+
+<h1>{{name}}のCRUD用ページ</h1>
+
+<table>
+{% for item in valueObjectList %}
+<tr>
+	<td>{{item.name}}: </td>
+	<td><input type="text" name="{{item.name}}" class="{{item.type}}" value="初期値" /></td>
+</tr>
+{% endfor %}
+</table>
+
+<p>思えばこれこそテンプレートエンジンの使い道ではないのか?</p>
+<p>ここにエンティティのパブリックプロパティを入力できるようにしておく</p>
+<button on:click={on_register_button_clicked}>登録</button>
+<button on:click={on_update_button_clicked}>更新</button>
+<button on:click={on_delete_button_clicked}>削除</button>

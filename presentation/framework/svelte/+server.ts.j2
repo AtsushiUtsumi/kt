@@ -1,0 +1,32 @@
+import { json } from '@sveltejs/kit';
+
+import { fail, redirect, type Actions } from '@sveltejs/kit'
+import { {{name}}RegisterCommand } from '$lib/server/{{name}}/{{name}}ApplicationService';
+import { {{name}}UpdateCommand } from '$lib/server/{{name}}/{{name}}ApplicationService';
+import { {{name}}DeleteCommand } from '$lib/server/{{name}}/{{name}}ApplicationService';
+import { {{name}}ApplicationService } from '$lib/server/{{name}}/{{name}}ApplicationService';
+import { {{name}}, InMemmory{{name}}Repository } from '$lib/server/{{name}}/{{name}}';
+
+// コマンドオブジェクトは内部は全てstring
+// ApplicationService内部で文字列から詰め替え値オブジェクトに詰め替え
+
+export async function POST({ request }: {request: any}) {
+  const { {% for valueObject in valueObjectList %}{{valueObject.name}}{% if not loop.last %}, {% endif %}{% endfor %} } = await request.json();
+  const command = new {{name}}RegisterCommand({% for valueObject in valueObjectList %}{{valueObject.name}}{% if not loop.last %}, {% endif %}{% endfor %});
+  console.log('登録します');
+  const service = new {{name}}ApplicationService(new InMemmory{{name}}Repository());
+  service.register(command);
+  return json({{valueObjectList[0].name}});
+}
+
+export async function PUT({ request }: {request: any}) {
+  const { {% for valueObject in valueObjectList %}{{valueObject.name}}{% if not loop.last %}, {% endif %}{% endfor %} } = await request.json();
+  //new {{name}}().update();
+  return json({{valueObjectList[0].name}});
+}
+
+export async function DELETE({ request }: {request: any}) {
+  const { {% for valueObject in valueObjectList %}{{valueObject.name}}{% if not loop.last %}, {% endif %}{% endfor %} } = await request.json();
+  var command = new {{name}}DeleteCommand({% for valueObject in valueObjectList %}{{valueObject.name}}{% if not loop.last %}, {% endif %}{% endfor %});
+  return json({{valueObjectList[0].name}});
+}

@@ -1,0 +1,57 @@
+// {{description}}ApplicationServiceテストコード
+
+import { {{name}}ApplicationService, {{name}}RegisterCommand, {{name}}SearchQuery, {{name}}UpdateCommand, {{name}}DeleteCommand } from './{{name}}ApplicationService';
+import { describe, it, expect } from 'vitest';
+
+var target = new {{name}}ApplicationService();
+
+describe('登録テスト', () => {
+	it('登録処理前にデータベースに登録されていないか', () => {
+		expect(1 + 2).toBe(3);
+	});
+    // 登録処理
+    target.register(new {{name}}RegisterCommand());
+	it('データベースに登録されているか', () => {
+		expect(1 + 2).toBe(3);
+	});
+	it('エラー時にロールバックされるか', () => {
+		expect(1 + 2).toBe(3);
+	});
+});
+
+describe('取得テスト', () => {
+	it('データベースに登録されているか', () => {
+		expect(1 + 2).toBe(3);
+	});
+    target.search(new {{name}}SearchQuery());
+	it('エラー時にロールバックされるか', () => {
+		expect(1 + 2).toBe(3);
+	});
+});
+
+describe('更新テスト', () => {
+	it('データベースに登録されているか', () => {
+		expect(1 + 2).toBe(3);
+	});
+    target.update(new {{name}}UpdateCommand());
+    it('レコードが更新されているか', () => {
+		expect(1 + 2).toBe(3);
+	});
+	it('エラー時にロールバックされるか', () => {
+		expect(1 + 2).toBe(3);
+	});
+});
+
+describe('削除テスト', () => {
+	it('削除処理前にデータベースに登録されているか', () => {
+		expect(1 + 2).toBe(3);
+	});
+    // 削除処理
+    target.delete(new {{name}}DeleteCommand());
+    it('削除処理後にデータベース削除されているか', () => {
+		expect(1 + 2).toBe(3);
+	});
+	it('エラー時にロールバックされるか', () => {
+		expect(1 + 2).toBe(3);
+	});
+});

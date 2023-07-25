@@ -1,0 +1,60 @@
+// {{description}}テストコード
+
+import { {{name}} } from './{{name}}';
+import { describe, it, expect } from 'vitest';
+
+var target = new {{name}}();
+
+describe('登録テスト', () => {
+	it('登録処理前にデータベースに登録されていないか', () => {
+		expect(1 + 2).toBe(3);
+	});
+    // 登録処理
+    target.save();
+	it('データベースに登録されているか', () => {
+		expect(1 + 2).toBe(3);
+	});
+	it('処理が失敗した際エラーを返すか', () => {
+		expect(1 + 2).toBe(3);
+	});
+});
+
+describe('取得テスト', () => {
+	it('データベースに登録されているか', () => {
+		expect(1 + 2).toBe(3);
+	});
+    target.find();
+	it('処理が失敗した際エラーを返すか', () => {
+		expect(1 + 2).toBe(3);
+	});
+});
+
+describe('更新テスト', () => {
+	it('データベースに登録されているか', () => {
+		expect(1 + 2).toBe(3);
+	});
+    target.find();
+    // 読み取りデータ保持
+    // 更新処理
+    target.save();
+    it('レコードが更新されているか', () => {
+		expect(1 + 2).toBe(3);
+	});
+	it('処理が失敗した際エラーを返すか', () => {
+		expect(1 + 2).toBe(3);
+	});
+});
+
+describe('削除テスト', () => {
+	it('削除処理前にデータベースに登録されているか', () => {
+		expect(1 + 2).toBe(3);
+	});
+    // 削除処理
+    target.delete();
+    it('削除処理後にデータベース削除されているか', () => {
+		expect(1 + 2).toBe(3);
+	});
+	it('処理が失敗した際エラーを返すか', () => {
+		expect(1 + 2).toBe(3);
+	});
+});

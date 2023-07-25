@@ -1,0 +1,70 @@
+// {{description}}
+
+import { {{name}}, {{name}}Repository } from '$lib/server/{{name}}/{{name}}';
+// アプリケーションサービス層
+
+// 面倒くさいのでここで定義してるがimport にしたい
+{% for valueObject in valueObjectList %}export class {{valueObject.type}} {
+    private value :string;
+    public toString() {
+        return this.value;
+    }
+    constructor({{valueObject.name}}: string){this.value = {{valueObject.name}};}
+};
+{% endfor %}
+
+// コマンドオブジェクト
+export class {{name}}RegisterCommand {
+{% for valueObject in valueObjectList %}
+    public {{valueObject.name}}: string;{% endfor %}
+
+    constructor({% for valueObject in valueObjectList %}{{valueObject.name}}: string{% if not loop.last %}, {% endif %}{% endfor %}) {
+        {% for valueObject in valueObjectList %}
+        this.{{valueObject.name}} = {{valueObject.name}};console.log(this.{{valueObject.name}});{% endfor %}
+    }
+}
+
+export class {{name}}SearchQuery {
+    constructor({% for valueObject in valueObjectList %}{{valueObject.name}}: string{% if not loop.last %}, {% endif %}{% endfor %}){}
+}
+
+export class {{name}}UpdateCommand {
+{% for valueObject in valueObjectList %}
+    public {{valueObject.name}}: string;{% endfor %}
+
+    constructor({% for valueObject in valueObjectList %}{{valueObject.name}}: string{% if not loop.last %}, {% endif %}{% endfor %}) {
+        {% for valueObject in valueObjectList %}
+        this.{{valueObject.name}} = {{valueObject.name}};
+        console.log(this.{{valueObject.name}});{% endfor %}
+    }
+}
+
+export class {{name}}DeleteCommand {
+    constructor({% for valueObject in valueObjectList %}{{valueObject.name}}: string{% if not loop.last %}, {% endif %}{% endfor %}){}
+}
+
+export class {{name}}ApplicationService{
+
+    private readonly repository: {{name}}Repository;
+
+    constructor(repository: {{name}}Repository){
+        this.repository = repository
+    }
+
+    public async register(command: {{name}}RegisterCommand): Promise<void>{
+        console.log('Serviceが呼ばれてる');
+        // コマンドオブジェクトからエンティティへ詰め替え
+        const entity = new {{name}}({% for valueObject in valueObjectList %}new {{valueObject.type}}(command.{{valueObject.name}}){% if not loop.last %}, {% endif %}{% endfor %});
+        console.log('登録します');
+        this.repository.save(entity);
+        return;
+    }
+    public search(searchQuery: {{name}}SearchQuery): void{return;}
+    public update(command: {{name}}UpdateCommand): void{
+        // コマンドオブジェクトからエンティティへ詰め替え
+        const entity = new {{name}}({% for valueObject in valueObjectList %}new {{valueObject.type}}(command.{{valueObject.name}}){% if not loop.last %}, {% endif %}{% endfor %});
+        this.repository.save(entity);
+        return;
+    }
+    public delete(deleteCommand: {{name}}DeleteCommand): void{return;}
+}

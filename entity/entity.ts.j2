@@ -1,0 +1,251 @@
+import { Database } from 'sqlite3';
+import util from 'node:util';
+
+type {{name}}Data = {
+    {{name.lower()}}Id: string;
+    address: string;
+    email: string;
+  };
+  
+  type {{name}}DataRow = {
+    {{name.lower()}}Data: string;
+    address: string;
+    email: string;
+  };
+  
+  type CountRow = {
+    count: number;
+  };
+async function test() {
+  const database = new Database('data/test.db');
+  await util.promisify(database.run).call(
+    database,
+    `\
+create table {{name}}(
+  {{name.lower()}}Id text,
+  address text,
+  email text,
+  primary key({{name.lower()}}Id)
+)`
+  );
+
+  const {{name.lower()}}s: {{name}}Data[] = [
+    {
+      {{name.lower()}}Id: '978-4873119700',
+      address: 'JavaScript 第7版',
+      email: 'hoge',
+    },
+    {
+      {{name.lower()}}Id: ' 978-4295010562',
+      address: 'JavaScriptモダンプログラミング完全ガイド [堅牢なコードを効率的に開発できる! ] (impress top gearシリーズ)',
+      email: 'fuge',
+    },
+    {
+      {{name.lower()}}Id: '978-4873117836',
+      address: '初めてのJavaScript 第3版 ―ES2015以降の最新ウェブ開発',
+      email: 'buge',
+    },
+    {
+      {{name.lower()}}Id: '978-4873119236',
+      address: 'ハンズオンNode.js',
+      email: 'moge',
+    },
+    {
+      {{name.lower()}}Id: '978-4873119045',
+      address: 'プログラミングTypeScript ―スケールするJavaScriptアプリケーション開発',
+      email: 'page',
+    },
+  ];
+
+  // insert
+  // Statement#run
+  const insertStatement = database.prepare('INSERT INTO {{name}}({{name.lower()}}Id, address, email) values(?, ?, ?)');
+
+  for (const {{name.lower()}} of {{name.lower()}}s) {
+    await util
+      .promisify(insertStatement.run.bind(insertStatement, [{{name.lower()}}.{{name.lower()}}Id, {{name.lower()}}.address, {{name.lower()}}.email]))
+      .call(insertStatement);
+  }
+
+  insertStatement.finalize();
+
+  // select
+  // Database#all
+  const countResult = (await util
+    .promisify(database.all)
+    .call(database, 'select count(*) as count from {{name.lower()}}')) as CountRow[];
+
+  const javascript7Result = (await util
+    .promisify(database.all.bind(database, 'select {{name.lower()}}Id, address, email from {{name.lower()}} where {{name.lower()}}Id = ?', '978-4873119700'))
+    .call(database)) as {{name}}DataRow[];
+
+  // select
+  // Statement#all
+  const queryStatement = database.prepare('select {{name.lower()}}Id, address, email from {{name.lower()}} where email > ? order by email desc');
+  const {{name.lower()}}sResults = (await util
+    .promisify(queryStatement.all.bind(queryStatement, 4000))
+    .call(queryStatement)) as {{name}}DataRow[];
+
+  queryStatement.finalize();
+
+  await util.promisify(database.close).call(database);
+}
+
+async function create() {
+  const database = new Database('data/test.db');
+  await util.promisify(database.run).call(
+    database,
+    `\
+CREATE TABLE {{name}}(
+  {{name.lower()}}Id text,
+  address text,
+  email text,
+  primary key({{name.lower()}}Id)
+)`
+  );
+
+  const {{name.lower()}}s: {{name}}Data[] = [
+    {
+      {{name.lower()}}Id: '978-4873119700',
+      address: 'JavaScript 第7版',
+      email: 'hoge',
+    },
+    {
+      {{name.lower()}}Id: ' 978-4295010562',
+      address: 'JavaScriptモダンプログラミング完全ガイド [堅牢なコードを効率的に開発できる! ] (impress top gearシリーズ)',
+      email: 'fuge',
+    },
+    {
+      {{name.lower()}}Id: '978-4873117836',
+      address: '初めてのJavaScript 第3版 ―ES2015以降の最新ウェブ開発',
+      email: 'buge',
+    },
+    {
+      {{name.lower()}}Id: '978-4873119236',
+      address: 'ハンズオンNode.js',
+      email: 'moge',
+    },
+    {
+      {{name.lower()}}Id: '978-4873119045',
+      address: 'プログラミングTypeScript ―スケールするJavaScriptアプリケーション開発',
+      email: 'page',
+    },
+  ];
+
+  // insert
+  // Statement#run
+  const insertStatement = database.prepare('insert into {{name}}({{name.lower()}}Id, address, email) values(?, ?, ?)');
+
+  for (const {{name.lower()}} of {{name.lower()}}s) {
+    await util
+      .promisify(insertStatement.run.bind(insertStatement, [{{name.lower()}}.{{name.lower()}}Id, {{name.lower()}}.address, {{name.lower()}}.email]))
+      .call(insertStatement);
+  }
+
+  insertStatement.finalize();
+  await util.promisify(database.close).call(database);
+}
+
+async function select() {
+  var database = new Database('data/test.db');
+  const countResult = (await util
+    .promisify(database.all)
+    .call(database, 'select count(*) as count from {{name}}')) as CountRow[];
+  await util.promisify(database.close).call(database);
+  console.log(countResult);
+
+  // ひとまず全件表示
+  database = new Database('data/test.db');
+  const result = (await util
+    .promisify(database.all)
+    .call(database, 'SELECT * FROM {{name}}'));
+  await util.promisify(database.close).call(database);
+  for (const item of result){console.log(item);}
+}
+
+// ひとまず今日はこれを登録できるようにしたい
+async function insert(entity: {{name}}) {
+  const database = new Database('data/test.db');
+  const insertStatement = database.prepare('INSERT INTO {{name}}({% for valueObject in valueObjectList %}{{valueObject.name}}{% if not loop.last %}, {% endif %}{% endfor %}) values({% for valueObject in valueObjectList %}?{% if not loop.last %}, {% endif %}{% endfor %})');
+  await util.promisify(insertStatement.run.bind(insertStatement, [{% for valueObject in valueObjectList %}entity.get{{valueObject.name.title()}}().toString(){% if not loop.last %}, {% endif %}{% endfor %}]))
+      .call(insertStatement);
+  insertStatement.finalize();
+  await util.promisify(database.close).call(database);
+}
+
+
+// {{description}}
+
+// ドメイン層
+// エンティティは必ず識別子を持つ
+export class {{name}}Id {};
+
+// 面倒くさいのでここで定義してるがimport にしたい
+{% for valueObject in valueObjectList %}export class {{valueObject.type}} {
+    private value :string;
+    public toString() {
+        return this.value;
+    }
+    constructor({{valueObject.name}}: string){this.value = {{valueObject.name}};}
+};
+{% endfor %}
+// 具象クラス
+export class {{name}}{
+{% for valueObject in valueObjectList %}
+    private {{valueObject.name}}: {{valueObject.type}};{% endfor %}
+    constructor({% for valueObject in valueObjectList %}{{valueObject.name}}: {{valueObject.type}}{% if not loop.last %}, {% endif %}{% endfor %}) {
+        {% for valueObject in valueObjectList %}
+        this.{{valueObject.name}} = {{valueObject.name}};{% endfor %}
+    }
+{% for valueObject in valueObjectList %}
+    public get{{valueObject.name.title()}}(): {{valueObject.type}}{
+        return this.{{valueObject.name}};
+    }
+{% endfor %}{% for publicMethod in publicMethodList %}
+    public {{publicMethod.name}}() {
+        return;
+    }
+{% endfor %}
+}
+
+// インフラストラクチャ層
+
+// Repositoryもイメージできるのでここで書く
+// 抽象クラス
+export abstract class {{name}}Repository {
+
+    abstract save(entity: {{name}}): void;
+
+    abstract find(id: {{name}}Id): void;
+
+    abstract delete(id: {{name}}Id): void;
+
+}
+
+export class MySql{{name}}Repository extends {{name}}Repository {
+
+    public save(entity: {{name}}): void{
+        console.log('MySql登録しました');
+        return;
+    }
+
+    public find(id: {{name}}Id): void{console.log('MySql検索しました');return;}
+
+    public delete(id: {{name}}Id): void{console.log('MySql削除しました');return;}
+}
+
+export class InMemmory{{name}}Repository extends {{name}}Repository {
+
+    public async save(entity: {{name}}): Promise<void>{
+        await create();
+        await select();
+        // とりあえず、インメモリでテーブル作成して読み込み処理
+        await insert(entity);
+        await select();
+        return;
+    }
+
+    public find(id: {{name}}Id): void{console.log('InMemmory検索しました');return;}
+
+    public delete(id: {{name}}Id): void{console.log('InMemmory削除しました');return;}
+}

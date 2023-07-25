@@ -1,0 +1,42 @@
+<?php
+// {{description}}
+// require_once __DIR__.'/../php/Domain/{{name}}/{{name}}';
+// アプリケーションサービス層
+
+// コマンドオブジェクト
+class {{name}}RegisterCommand {
+{% for valueObject in valueObjectList %}
+    public ${{valueObject.name}};{% endfor %}
+    public function __construct({% for valueObject in valueObjectList %}${{valueObject.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
+        {% for valueObject in valueObjectList %}
+        $this->{{valueObject.name}} = {{valueObject.name}};{% endfor %}
+    }
+}
+
+class {{name}}SearchQuery {
+    public function __construct({% for valueObject in valueObjectList %}${{valueObject.name}}{% if not loop.last %}, {% endif %}{% endfor %}){}
+}
+
+class {{name}}UpdateCommand {
+{% for valueObject in valueObjectList %}
+    private ${{valueObject.name}};{% endfor %}
+
+    public function __construct({% for valueObject in valueObjectList %}${{valueObject.name}}{% if not loop.last %}, {% endif %}{% endfor %}) {
+        {% for valueObject in valueObjectList %}
+        $this->{{valueObject.name}} = {{valueObject.name}};
+        print($this->{{valueObject.name}});{% endfor %}
+    }
+}
+
+class {{name}}DeleteCommand {
+    public function __construct({% for valueObject in valueObjectList %}${{valueObject.name}}{% if not loop.last %}, {% endif %}{% endfor %}){}
+}
+
+class {{name}}ApplicationService{
+    public function __construct(){}
+    public function register($command){print("アプリケーション層登録処理\n");return;}
+    public function search($command){print("アプリケーション層検索処理\n");return;}
+    public function update($command){print("アプリケーション層更新処理\n");return;}
+    public function delete($command){print("アプリケーション層削除処理\n");return;}
+}
+?>

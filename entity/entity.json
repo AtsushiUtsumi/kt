@@ -1,0 +1,151 @@
+{
+    "domain": "user",
+    "description": "ユーザーで集約",
+    "entityList": [
+        {
+            "name": "productGroup",
+            "description": "抽象クラス(こういう自動生成は抽象クラスの設定にとどめておくべきではないのか",
+            "dependsOn(このフィールドは使わない)": [
+                "他のクラスに依存するならクラス名(文字列)もしくはクラスそのもの(オブジェクト)をここで定義しておく",
+                "Hoge"
+            ],
+            "valueObjectList": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                },
+                {
+                    "name": "email",
+                    "type": "Email"
+                }
+            ],
+            "publicMethodList": [
+                {
+                    "name": "getKillNumber",
+                    "description": "期間内にキルした敵の数",
+                    "return": "number",
+                    "paramList": [
+                        {
+                            "name": "dateFrom",
+                            "type": "Date"
+                        },
+                        {
+                            "name": "dateTo",
+                            "type": "Date"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "product_model",
+            "description": "抽象クラス(こういう自動生成は抽象クラスの設定にとどめておくべきではないのか",
+            "dependsOn(このフィールドは使わない)": [
+                "他のクラスに依存するならクラス名(文字列)もしくはクラスそのもの(オブジェクト)をここで定義しておく",
+                "Hoge"
+            ],
+            "valueObjectList": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                },
+                {
+                    "name": "email",
+                    "type": "Email"
+                }
+            ],
+            "publicMethodList": [
+                {
+                    "name": "getKillNumber",
+                    "description": "期間内にキルした敵の数",
+                    "return": "number",
+                    "paramList": [
+                        {
+                            "name": "dateFrom",
+                            "type": "Date"
+                        },
+                        {
+                            "name": "dateTo",
+                            "type": "Date"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "User",
+            "description": "抽象クラス(こういう自動生成は抽象クラスの設定にとどめておくべきではないのか",
+            "dependsOn(このフィールドは使わない)": [
+                "他のクラスに依存するならクラス名(文字列)もしくはクラスそのもの(オブジェクト)をここで定義しておく",
+                "Hoge"
+            ],
+            "valueObjectList": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                },
+                {
+                    "name": "email",
+                    "type": "Email"
+                }
+            ],
+            "publicMethodList": [
+                {
+                    "name": "getKillNumber",
+                    "description": "期間内にキルした敵の数",
+                    "return": "number",
+                    "paramList": [
+                        {
+                            "name": "dateFrom",
+                            "type": "Date"
+                        },
+                        {
+                            "name": "dateTo",
+                            "type": "Date"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Circle",
+            "description": "抽象クラス(こういう自動生成は抽象クラスの設定にとどめておくべきではないのか",
+            "valueObjectList": [
+                {
+                    "name": "history",
+                    "type": "History"
+                }
+            ],
+            "publicMethodList": [
+                {
+                    "name": "getName",
+                    "description": "名前を返すメソッド",
+                    "paramList": [
+                        {
+                            "name": "dateFrom",
+                            "type": "Date"
+                        },
+                        {
+                            "name": "dateTo",
+                            "type": "Date"
+                        }
+                    ]
+                },
+                {
+                    "name": "join",
+                    "description": "データを返すメソッドを書くくらいならその処理をこの中で実装した方が良さそう",
+                    "paramList": [
+                        {
+                            "name": "dateFrom",
+                            "type": "Date"
+                        },
+                        {
+                            "name": "dateTo",
+                            "type": "Date"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
